@@ -1,0 +1,77 @@
+{
+    "type": "object",
+    "properties": {
+        "requestBody": {
+            "properties": {
+                "models": {
+                    "items": {
+                        "properties": {
+                            "material_id": {
+                                "description": "The unique identifier of the material you'd like to print in. This value comes from the id field of the material object.",
+                                "type": "integer"
+                            },
+                            "model_id": {
+                                "description": "The unique identifier of the model you'd like to print. This value comes from the id field of the model object.",
+                                "type": "integer"
+                            },
+                            "options": {
+                                "description": "Optional extra parameters for the production of this model. There may be additional charges for each enabled optional service.",
+                                "properties": {
+                                    "orientation": {
+                                        "description": "Indicates whether or not this model needs to be oriented prior to printing. If your model is already oriented for 3D printing, you can omit this flag (or set it to false) and it will not be re-oriented prior to printing. If true, it will be re-oriented prior to printing. If you're not sure if your model is oriented, you should set this flag to true. There is an additional charge for orientation.",
+                                        "type": "boolean"
+                                    }
+                                },
+                                "type": "object"
+                            },
+                            "quantity": {
+                                "description": "The number of prints to order for this material/model pair.",
+                                "type": "integer"
+                            },
+                            "units": {
+                                "description": "The units of the model file. Either \"mm\", \"cm\", or \"in\". The correct value to pass here depends on which design program you're using. Defaults to \"mm\".",
+                                "type": "string"
+                            }
+                        },
+                        "type": "object"
+                    },
+                    "type": "array"
+                },
+                "shipping_address": {
+                    "properties": {
+                        "city": {
+                            "type": "string"
+                        },
+                        "country": {
+                            "type": "string"
+                        },
+                        "email": {
+                            "description": "Contact email address for the recipient.",
+                            "type": "string"
+                        },
+                        "name": {
+                            "description": "Name of the recipient.",
+                            "type": "string"
+                        },
+                        "state": {
+                            "type": "string"
+                        },
+                        "street1": {
+                            "description": "First line of the street address.",
+                            "type": "string"
+                        },
+                        "street2": {
+                            "description": "Second line of the street address (Apartment or Suite number, etc). Optional.",
+                            "type": "string"
+                        },
+                        "zip": {
+                            "type": "string"
+                        }
+                    },
+                    "type": "object"
+                }
+            },
+            "type": "object"
+        }
+    }
+}

@@ -1,0 +1,41 @@
+{
+    "type": "object",
+    "properties": {
+        "x": {
+            "required": true,
+            "type": "number"
+        },
+        "y": {
+            "required": true,
+            "type": "number"
+        },
+        "z": {
+            "required": true,
+            "type": "number"
+        },
+        "volume": {
+            "required": true,
+            "type": "number"
+        },
+        "surface_area": {
+            "required": true,
+            "type": "number"
+        },
+        "material_id": {
+            "required": true,
+            "type": "number"
+        },
+        "quantity": {
+            "required": true,
+            "type": "number"
+        },
+        "units": {
+            "required": true,
+            "type": "string"
+        },
+        "options_orientation_": {
+            "required": false,
+            "type": "boolean"
+        }
+    }
+}

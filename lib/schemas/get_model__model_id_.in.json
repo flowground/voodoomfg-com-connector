@@ -1,0 +1,9 @@
+{
+    "type": "object",
+    "properties": {
+        "model_id": {
+            "required": true,
+            "type": "integer"
+        }
+    }
+}

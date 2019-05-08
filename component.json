@@ -1,0 +1,226 @@
+{
+    "title": "Voodoo Manufacturing 3D Print",
+    "description": "Welcome to the Voodoo Manufacturing API docs!\n\nYour Voodoo Manufacturing API key must be included with each request to the API. The API will look for the key in the \"api_key\" header of the request. <a href=\"https://voodoomfg.com/3d-print-api#get-access\" target=\"_blank\">You can request a key here.</a>\n\nThis API provides a programmatic interface for submitting printing orders to Voodoo Manufacturing. The general process for creating an order is as follows:\n  - Get a list of the available materials with the /materials endpoint\n  - Upload models to the API with the /models endpoint\n  - Get quotes for shipping methods with the /order/shipping endpoint\n  - Get a quote for an order with the /order/create endpoint\n  - Confirm the order with the /order/confirm endpoint\n\nUploaded models and orders can be retrieved either in bulk or by id at the /model and /order endpoints, respectively.\n\nIn some cases, you may wish to get a quote for a specific model without the context of an order. In this case, you may use the /model/quote (if you've already uploaded the model to the API) or the /model/quote_attrs (lets you quote based on calculated model attributes) endpoints.\n",
+    "docsUrl": "",
+    "url": "https://api.apis.guru/v2/specs/voodoomfg.com/2.0.0/swagger.json",
+    "envVars": {},
+    "credentials": {
+        "fields": {
+            "server": {
+                "label": "Server",
+                "viewClass": "SelectView",
+                "model": [
+                    "https://api.voodoomfg.com/api/2",
+                    "--- Custom URL"
+                ],
+                "required": true
+            },
+            "otherServer": {
+                "label": "Custom Server URL",
+                "viewClass": "TextFieldView"
+            },
+            "Voodoo_Manufacturing_API_Key": {
+                "label": "api_key (Voodoo_Manufacturing_API_Key)",
+                "viewClass": "TextFieldView",
+                "note": "Your Voodoo Manufacturing API key must be included with each request to the API. The API will look for the key in the \"api_key\" header of the request."
+            }
+        }
+    },
+    "triggers": {
+        "startFlow": {
+            "main": "./lib/triggers/startFlow.js",
+            "type": "polling",
+            "title": "Start Flow",
+            "fields": {}
+        }
+    },
+    "actions": {
+        "get_materials": {
+            "main": "./lib/actions/get_materials.js",
+            "title": "Voodoo Manufacturing offers printing in a number of different materials, with different color options for each. Your organization can expose as many or as few material options as you want to your end-customer.\n",
+            "description": "The Materials endpoint returns a list of materials that are currently available for production for your account.\nThe responses include display details about each material, along with the unique id required to request a print in a specific material.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_materials.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_model": {
+            "main": "./lib/actions/get_model.js",
+            "title": "Retrieve the models you've created.\n",
+            "description": "Lists all of the models you've created.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_model.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_model": {
+            "main": "./lib/actions/post_model.js",
+            "title": "Models represent 3D design files that you'd like to produce. Creating models is generally the first step in creating an order.\n",
+            "description": "Downloads the model data from the URL specified by file_url and saves it as a model. As a part of the model upload process, the file is run through a program that repairs the mesh (closing holes, flipping inverted normals, etc). In some cases, this may alter the geometry of your model. If you're noticing bad results for your created models, you might consider repairing your files before submitting them.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_model.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_model_quote": {
+            "main": "./lib/actions/get_model_quote.js",
+            "title": "Get a quote a given model id.\n",
+            "description": "Calculates a quote for the given model in the given material and quantity. This endpoint required that you've already uploaded the model to our servers -- to get a quote for a model you haven't yet uploaded, you can try /model/quote_attrs.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_model_quote.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_model_quote_attrs": {
+            "main": "./lib/actions/get_model_quote_attrs.js",
+            "title": "Get a quote for a model with the given attributes.\n",
+            "description": "This endpoint will provide a quote for a model matching the submitted parameters. Note that this quote may be different than the quote provided by /model/quote in the case that your attribute calculations differ from the ones used by Voodoo Manufacturing.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_model_quote_attrs.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_model__model_id_": {
+            "main": "./lib/actions/get_model__model_id_.js",
+            "title": "Retrieve a previously created model by its id.\n",
+            "description": "In cases where you're ordering models you've created previously, you can fetch a specific model by its id.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_model__model_id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_order": {
+            "main": "./lib/actions/get_order.js",
+            "title": "Lists all orders.\n",
+            "description": "Gets all of orders that you've confirmed.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_order.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_order_confirm": {
+            "main": "./lib/actions/post_order_confirm.js",
+            "title": "Confirms an order from a quote_id and submits it to the Voodoo factory.\n",
+            "description": "After generating a quote for an order, you can choose to confirm the order for manufacturing by hitting this endpoint with the quote_id returned by the /order/quote endpoint. Returns the order with a unique order_id in place of the quote_id.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_order_confirm.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_order_create": {
+            "main": "./lib/actions/post_order_create.js",
+            "title": "Quotes an order and returns a quote_id that is used to confirm the order.\n",
+            "description": "Creates an order for the requested items, shipping address, and shipping method. This method returns the order along with a quote_id, which needs to be confirmed with /order/confirm prior to the order actually being started. quote_ids are only valid for 15 minutes.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_order_create.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "post_order_shipping": {
+            "main": "./lib/actions/post_order_shipping.js",
+            "title": "List shipping options and prices for a given shipment.\n",
+            "description": "Get quotes for shipping your order to the given shipping address. Because shipping quotes depend on the items being shipped, you should use the same array of print descriptions here that you do to create the order.\n\nThis endpoint should allow you to select the appropriate shipping method using the \"service\" field of the desired shipping method.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/post_order_shipping.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        },
+        "get_order__order_id_": {
+            "main": "./lib/actions/get_order__order_id_.js",
+            "title": "Retrieve a previously created model by its id.\n",
+            "description": "In cases where you're ordering models you've created previously, you can fetch a specific model by its id.\n",
+            "fields": {
+                "verbose": {
+                    "viewClass": "CheckBoxView",
+                    "label": "Debug this step (log more data)"
+                }
+            },
+            "metadata": {
+                "in": "./lib/schemas/get_order__order_id_.in.json",
+                "out": {
+                    "type": "object"
+                }
+            }
+        }
+    }
+}
